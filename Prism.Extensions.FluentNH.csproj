@@ -99,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\PredicateExtensions.cs" />
+    <Compile Include="FluentDataOnlyModule.cs" />
     <Compile Include="FluentModule.cs" />
     <Compile Include="Services\FluentInitializationService.cs" />
     <Compile Include="Services\interfaces\IMappingRegistryService.cs" />

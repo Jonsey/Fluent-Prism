@@ -1,24 +1,21 @@
 ﻿
 using Microsoft.Practices.Unity;
-
-using Prism.Extensions.FluentNH.Services;
-using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 
 namespace Prism.Extensions.FluentNH
 {
-	public abstract class FluentModule<TModule> : IModule
+	public abstract class FluentModule<TModule> : FluentDataOnlyModule<TModule>
 	{
 		#region Fields
 
-		protected IUnityContainer container;
-		protected IRegionManager regionManager;
+	    protected IRegionManager regionManager;
 
 		#endregion Fields
 
 		#region Constructors
 
-		protected FluentModule(IUnityContainer container, IRegionManager manager)
+        protected FluentModule(IUnityContainer container, IRegionManager manager)
+            : base(container)
 		{
 			this.container = container;
 			regionManager = manager;
@@ -26,36 +23,21 @@ namespace Prism.Extensions.FluentNH
 
 		#endregion Constructors
 
-		#region Private Methods
-
-		void InitializePersistence()
-		{
-			var fluentService = new FluentInitializationService(container, GetConnectionString());
-			fluentService.InitializeModule<TModule>();
-		}
-
-		#endregion Private Methods
-
 		#region Protected Methods
 
-		protected abstract string GetConnectionString();
-
-		protected abstract void RegisterTypesAndServices();
-
-		protected abstract void RegisterViewsWithRegions();
+	    protected abstract void RegisterViewsWithRegions();
 
 		#endregion Protected Methods
 
 		#region Public Methods
 
-		public void Initialize()
-		{
-			InitializePersistence();
+        public override void Initialize()
+        {
+            base.Initialize();
 
-			RegisterTypesAndServices();
-			RegisterViewsWithRegions();
-		}
+            RegisterViewsWithRegions();
+        }
 
-		#endregion Public Methods
+	    #endregion Public Methods
 	}
 }
